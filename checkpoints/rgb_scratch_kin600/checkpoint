@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/rgb_scratch_kin600/model.ckpt"
+all_model_checkpoint_paths: "home/jiashu/Documents/I3D-Tensorflow/checkpoints/rgb_scratch_kin600/model.ckpt"
