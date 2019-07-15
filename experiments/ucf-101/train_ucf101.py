@@ -43,7 +43,7 @@ flags.DEFINE_integer('classics', 101, 'The num of class')
 FLAGS = flags.FLAGS
 model_save_dir = './models/pre_imagenet_30000_4_64_0.0001_decay'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 
 def run_training():

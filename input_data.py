@@ -61,6 +61,7 @@ def get_data(filename, num_frames_per_clip, sample_rate, s_index=-1):
                     ret_arr.append(img_data)
             return sample_data(ret_arr, num_frames_per_clip, sample_rate), s_index
     filenames = sorted(filenames)
+    print("Length of filenames is " + str(len(filenames)))
     if s_index < 0:
         s_index = random.randint(0, len(filenames) - num_frames_per_clip)
     for i in range(int(num_frames_per_clip/sample_rate)):
@@ -74,10 +75,10 @@ def get_data(filename, num_frames_per_clip, sample_rate, s_index=-1):
 def get_frames_data(filename, num_frames_per_clip, sample_rate, add_flow):
     ''' Given a directory containing extracted frames, return a video clip of
     (num_frames_per_clip) consecutive frames as a list of np arrays '''
-    #print(filename)
+    print(filename)
     filename_i = os.path.join(filename, 'i')
-    #print(filename)
-    rgb_ret_arr, s_index = get_data(filename, num_frames_per_clip, sample_rate)
+    print(filename_i)
+    rgb_ret_arr, s_index = get_data(filename_i, num_frames_per_clip, sample_rate)
     if not add_flow:
         return rgb_ret_arr, [], s_index
     filename_x = os.path.join(filename, 'x')
@@ -165,7 +166,7 @@ def data_process(tmp_data, crop_size):
         img_datas.append(img)
     return img_datas
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=64, sample_rate=4, crop_size=224, shuffle=True, add_flow=False):
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=64, sample_rate=1, crop_size=224, shuffle=True, add_flow=False):
     lines = open(filename, 'r')
     read_dirnames = []
     rgb_data = []
