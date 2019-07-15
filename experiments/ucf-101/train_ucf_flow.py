@@ -43,7 +43,7 @@ flags.DEFINE_integer('classics', 101, 'The num of class')
 FLAGS = flags.FLAGS
 model_save_dir = './models/flow_scratch_20000_6_64_0.0001_decay'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 
 def run_training():
@@ -53,7 +53,7 @@ def run_training():
     # Create model directory
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
-    flow_pre_model_save_dir = "/home/project/I3D/I3D/checkpoints/flow_scratch"
+    flow_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/flow_scratch"
 
     with tf.Graph().as_default():
         global_step = tf.get_variable(

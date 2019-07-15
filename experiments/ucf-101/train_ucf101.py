@@ -43,7 +43,7 @@ flags.DEFINE_integer('classics', 101, 'The num of class')
 FLAGS = flags.FLAGS
 model_save_dir = './models/pre_imagenet_30000_4_64_0.0001_decay'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 
 def run_training():
@@ -53,8 +53,8 @@ def run_training():
     # Create model directory
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
-    rgb_pre_model_save_dir = "/home/project/I3D/I3D/checkpoints/rgb_imagenet"
-    flow_pre_model_save_dir = "/home/project/I3D/I3D/checkpoints/flow_imagenet"
+    rgb_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/rgb_imagenet"
+    flow_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/flow_imagenet"
 
     with tf.Graph().as_default():
         global_step = tf.get_variable(

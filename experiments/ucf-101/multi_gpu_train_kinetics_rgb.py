@@ -54,7 +54,7 @@ def run_training():
     # Create model directory
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
-    rgb_pre_model_save_dir = "/home/project/I3D/I3D/checkpoints/rgb_imagenet"
+    rgb_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/rgb_imagenet"
 
     video_path_list = np.load('./data_list/train_data_list.npy')
     label_list = np.load('./data_list/train_label_list.npy')
