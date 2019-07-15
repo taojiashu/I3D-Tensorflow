@@ -30,6 +30,9 @@ import time
 
 
 def sample_data(ori_arr, num_frames_per_clip, sample_rate):
+    if sample_rate == 1:
+        return ori_arr
+
     ret_arr = []
     for i in range(int(num_frames_per_clip/sample_rate)):
         ret_arr.append(ori_arr[int(i*sample_rate)])
