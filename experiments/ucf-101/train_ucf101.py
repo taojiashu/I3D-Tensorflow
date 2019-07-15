@@ -165,7 +165,7 @@ def run_training():
                       batch_size=FLAGS.batch_size * gpu_num,
                       num_frames_per_clip=FLAGS.num_frame_per_clib,
                       crop_size=FLAGS.crop_size,
-                      shuffle=True
+                      shuffle=True, add_flow=True
                       )
         sess.run(train_op, feed_dict={
                       rgb_images_placeholder: rgb_train_images,
@@ -196,7 +196,7 @@ def run_training():
                             batch_size=FLAGS.batch_size * gpu_num,
                             num_frames_per_clip=FLAGS.num_frame_per_clib,
                             crop_size=FLAGS.crop_size,
-                            shuffle=True
+                            shuffle=True, add_flow=True
                             )
             summary, acc = sess.run(
                             [merged, accuracy],
