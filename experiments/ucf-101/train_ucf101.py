@@ -156,8 +156,8 @@ def run_training():
         flow_saver.restore(sess, ckpt.model_checkpoint_path)
         print("load complete!")
 
-    train_writer = tf.summary.FileWriter('./visual_logs/train_pre_imagenet_30000_4_64_0.0001_decay', sess.graph)
-    test_writer = tf.summary.FileWriter('./visual_logs/test_pre_imagenet_30000_4_64_0.0001_decay', sess.graph)
+    train_writer = tf.summary.FileWriter('./visual_logs/train_pre_imagenet_30000_4_16_0.0001_decay', sess.graph)
+    test_writer = tf.summary.FileWriter('./visual_logs/test_pre_imagenet_30000_4_16_0.0001_decay', sess.graph)
     for step in xrange(FLAGS.max_steps):
         start_time = time.time()
         rgb_train_images, flow_train_images, train_labels, _, _, _ = input_data.read_clip_and_label(
