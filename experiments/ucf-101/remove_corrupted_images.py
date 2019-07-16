@@ -31,7 +31,6 @@ def remove_corrupted_image_folder(dir):
     return False
 
 
-print("Hello, world!")
 l = open("/home/jiashu/Documents/I3D-Tensorflow/list/ucf_list/train_flow.list", 'r')
 print("List loaded")
 lines = list(l)
