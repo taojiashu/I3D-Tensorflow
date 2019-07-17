@@ -53,8 +53,8 @@ def run_training():
     # Create model directory
     if not os.path.exists(model_save_dir):
         os.makedirs(model_save_dir)
-    rgb_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/rgb_imagenet"
-    flow_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/checkpoints/flow_imagenet"
+    rgb_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/models/pre_imagenet_30000_4_32_0.0001_decay"
+    flow_pre_model_save_dir = "/home/jiashu/Documents/I3D-Tensorflow/models/pre_imagenet_30000_4_32_0.0001_decay"
 
     with tf.Graph().as_default():
         global_step = tf.get_variable(
