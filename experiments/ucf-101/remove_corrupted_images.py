@@ -31,9 +31,10 @@ def remove_corrupted_image_folder(dir):
     return False
 
 
-l = open("/home/jiashu/Documents/I3D-Tensorflow/list/ucf_list/train_flow.list", 'r')
+l1 = open("/home/jiashu/Documents/I3D-Tensorflow/list/ucf_list/train_flow.list", 'r')
 print("List loaded")
-lines = list(l)
+l.close()
+lines = list(l1)
 counter = 0
 
 for line in lines:
@@ -57,4 +58,32 @@ for line in lines:
         send2trash(filename_x)
         counter += 1
 
-print("Total number of corrupted directory is", counter)
+print("Total number of corrupted directory in training set is", counter)
+
+l2 = open("/home/jiashu/Documents/I3D-Tensorflow/list/ucf_list/test_flow.list", 'r')
+print("List loaded")
+lines = list(l2)
+counter = 0
+
+for line in lines:
+    path = (line.split())[0]
+    assert isinstance(path, str)
+
+    filename_i = os.path.join(path, 'i')
+    filename_x = os.path.join(path, 'x')
+    filename_y = os.path.join(path, 'y')
+
+    if remove_corrupted_image_folder(filename_i):
+        send2trash(filename_x)
+        send2trash(filename_y)
+        counter += 1
+    elif remove_corrupted_image_folder(filename_x):
+        send2trash(filename_i)
+        send2trash(filename_y)
+        counter += 1
+    elif remove_corrupted_image_folder(filename_y):
+        send2trash(filename_i)
+        send2trash(filename_x)
+        counter += 1
+
+print("Total number of corrupted directory in test set is", counter)
