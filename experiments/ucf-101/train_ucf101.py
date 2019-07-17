@@ -150,11 +150,15 @@ def run_training():
         print("loading checkpoint %s,waiting......" % ckpt.model_checkpoint_path)
         rgb_saver.restore(sess, ckpt.model_checkpoint_path)
         print("load complete!")
+    else:
+        print("RGB stream training from scratch")
     ckpt = tf.train.get_checkpoint_state(flow_pre_model_save_dir)
     if ckpt and ckpt.model_checkpoint_path:
         print("loading checkpoint %s,waiting......" % ckpt.model_checkpoint_path)
         flow_saver.restore(sess, ckpt.model_checkpoint_path)
         print("load complete!")
+    else:
+        print("Flow stream training from scratch")
 
     train_writer = tf.summary.FileWriter('./visual_logs/train_pre_imagenet_30000_4_16_0.0001_decay', sess.graph)
     test_writer = tf.summary.FileWriter('./visual_logs/test_pre_imagenet_30000_4_16_0.0001_decay', sess.graph)
