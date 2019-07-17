@@ -35,15 +35,15 @@ gpu_num = 1
 flags.DEFINE_float('learning_rate', 0.0001, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 30000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('batch_size', 4, 'Batch size.')
-flags.DEFINE_integer('num_frame_per_clib', 16, 'Nummber of frames per clib')
+flags.DEFINE_integer('num_frame_per_clib', 32, 'Nummber of frames per clib')
 flags.DEFINE_integer('crop_size', 224, 'Crop_size')
 flags.DEFINE_integer('rgb_channels', 3, 'RGB_channels for input')
 flags.DEFINE_integer('flow_channels', 2, 'FLOW_channels for input')
 flags.DEFINE_integer('classics', 101, 'The num of class')
 FLAGS = flags.FLAGS
-model_save_dir = './models/pre_imagenet_30000_4_16_0.0001_decay'
+model_save_dir = './models/pre_imagenet_30000_4_32_0.0001_decay'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
 
 def run_training():
