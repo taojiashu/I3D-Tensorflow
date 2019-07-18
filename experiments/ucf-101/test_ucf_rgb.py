@@ -32,7 +32,7 @@ from utils import *
 flags = tf.app.flags
 gpu_num = 1
 flags.DEFINE_integer('batch_size', 1, 'Batch size.')
-flags.DEFINE_integer('num_frame_per_clib', 16, 'Nummber of frames per clib')
+flags.DEFINE_integer('num_frame_per_clip', 16, 'Nummber of frames per clip')
 flags.DEFINE_integer('crop_size', 224, 'Crop_size')
 flags.DEFINE_integer('rgb_channels', 3, 'Channels for input')
 flags.DEFINE_integer('classics', 101, 'The num of class')
@@ -52,7 +52,7 @@ def run_training():
     with tf.Graph().as_default():
         rgb_images_placeholder, _, labels_placeholder, is_training = placeholder_inputs(
                         FLAGS.batch_size * gpu_num,
-                        FLAGS.num_frame_per_clib,
+                        FLAGS.num_frame_per_clip,
                         FLAGS.crop_size,
                         FLAGS.rgb_channels
                         )
@@ -94,7 +94,7 @@ def run_training():
                             filename=file[step],
                             batch_size=FLAGS.batch_size * gpu_num,
                             s_index=s_index,
-                            num_frames_per_clip=FLAGS.num_frame_per_clib,
+                            num_frames_per_clip=FLAGS.num_frame_per_clip,
                             crop_size=FLAGS.crop_size,
                             )
             predict = sess.run(norm_score,
