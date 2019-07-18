@@ -43,7 +43,7 @@ flags.DEFINE_integer('classics', 101, 'The num of class')
 FLAGS = flags.FLAGS
 model_save_dir = './models/flow_scratch_20000_6_64_0.0001_decay'
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
 
 def run_training():
@@ -130,7 +130,7 @@ def run_training():
                       batch_size=FLAGS.batch_size * gpu_num,
                       num_frames_per_clip=FLAGS.num_frame_per_clib,
                       crop_size=FLAGS.crop_size,
-                      shuffle=True
+                      shuffle=True, add_flow=True
                       )
         sess.run(train_op, feed_dict={
                       flow_images_placeholder: flow_train_images,
@@ -159,7 +159,7 @@ def run_training():
                             batch_size=FLAGS.batch_size * gpu_num,
                             num_frames_per_clip=FLAGS.num_frame_per_clib,
                             crop_size=FLAGS.crop_size,
-                            shuffle=True
+                            shuffle=True, add_flow=True
                             )
             summary, acc = sess.run(
                             [merged, accuracy],
