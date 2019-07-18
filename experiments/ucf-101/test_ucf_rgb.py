@@ -17,6 +17,7 @@
 # pylint: disable=missing-docstring
 import os
 import sys
+
 sys.path.append('../../')
 import time
 import numpy
@@ -32,7 +33,7 @@ from utils import *
 flags = tf.app.flags
 gpu_num = 1
 flags.DEFINE_integer('batch_size', 1, 'Batch size.')
-flags.DEFINE_integer('num_frame_per_clip', 16, 'Nummber of frames per clip')
+flags.DEFINE_integer('num_frame_per_clip', 16, 'Number of frames per clip')
 flags.DEFINE_integer('crop_size', 224, 'Crop_size')
 flags.DEFINE_integer('rgb_channels', 3, 'Channels for input')
 flags.DEFINE_integer('classics', 101, 'The num of class')
@@ -51,19 +52,19 @@ def run_training():
     print("Number of test videos={}".format(num_test_videos))
     with tf.Graph().as_default():
         rgb_images_placeholder, _, labels_placeholder, is_training = placeholder_inputs(
-                        FLAGS.batch_size * gpu_num,
-                        FLAGS.num_frame_per_clip,
-                        FLAGS.crop_size,
-                        FLAGS.rgb_channels
-                        )
+            FLAGS.batch_size * gpu_num,
+            FLAGS.num_frame_per_clip,
+            FLAGS.crop_size,
+            FLAGS.rgb_channels
+        )
 
         with tf.variable_scope('RGB'):
             logit, _ = InceptionI3d(
-                                num_classes=FLAGS.classics,
-                                spatial_squeeze=True,
-                                final_endpoint='Logits',
-                                name='inception_i3d'
-                                )(rgb_images_placeholder, is_training)
+                num_classes=FLAGS.classics,
+                spatial_squeeze=True,
+                final_endpoint='Logits',
+                name='inception_i3d'
+            )(rgb_images_placeholder, is_training)
         norm_score = tf.nn.softmax(logit)
 
         # Create a saver for writing training checkpoints.
@@ -72,15 +73,15 @@ def run_training():
 
         # Create a session for running Ops on the Graph.
         sess = tf.Session(
-                        config=tf.ConfigProto(allow_soft_placement=True)
-                        )
+            config=tf.ConfigProto(allow_soft_placement=True)
+        )
         sess.run(init)
 
     ckpt = tf.train.get_checkpoint_state(pre_model_save_dir)
     if ckpt and ckpt.model_checkpoint_path:
-        print ("loading checkpoint %s,waiting......" % ckpt.model_checkpoint_path)
+        print("loading checkpoint %s,waiting......" % ckpt.model_checkpoint_path)
         saver.restore(sess, ckpt.model_checkpoint_path)
-        print ("load complete!")
+        print("load complete!")
 
     all_steps = num_test_videos
     top1_list = []
@@ -91,22 +92,22 @@ def run_training():
         top1 = False
         while True:
             val_images, _, val_labels, s_index, is_end = input_test.read_clip_and_label(
-                            filename=file[step],
-                            batch_size=FLAGS.batch_size * gpu_num,
-                            s_index=s_index,
-                            num_frames_per_clip=FLAGS.num_frame_per_clip,
-                            crop_size=FLAGS.crop_size,
-                            )
+                filename=file[step],
+                batch_size=FLAGS.batch_size * gpu_num,
+                s_index=s_index,
+                num_frames_per_clip=FLAGS.num_frame_per_clip,
+                crop_size=FLAGS.crop_size,
+            )
             predict = sess.run(norm_score,
                                feed_dict={
-                                            rgb_images_placeholder: val_images,
-                                            labels_placeholder: val_labels,
-                                            is_training: False
-                                            })
+                                   rgb_images_placeholder: val_images,
+                                   labels_placeholder: val_labels,
+                                   is_training: False
+                               })
             predicts.append(np.array(predict).astype(np.float32).reshape(FLAGS.classics))
             if is_end:
                 avg_pre = np.mean(predicts, axis=0).tolist()
-                top1 = (avg_pre.index(max(avg_pre))==val_labels)
+                top1 = (avg_pre.index(max(avg_pre)) == val_labels)
                 top1_list.append(top1)
                 break
         duration = time.time() - start_time
