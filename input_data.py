@@ -28,14 +28,13 @@ import cv2
 import time
 
 
-
 def sample_data(ori_arr, num_frames_per_clip, sample_rate):
     if sample_rate == 1:
         return ori_arr
 
     ret_arr = []
-    for i in range(int(num_frames_per_clip/sample_rate)):
-        ret_arr.append(ori_arr[int(i*sample_rate)])
+    for i in range(int(num_frames_per_clip / sample_rate)):
+        ret_arr.append(ori_arr[int(i * sample_rate)])
     return ret_arr
 
 
@@ -43,22 +42,22 @@ def get_data(filename, num_frames_per_clip, sample_rate, s_index=-1):
     ret_arr = []
     filenames = ''
     for parent, dirnames, filenames in os.walk(filename):
-        if len(filenames)==0:
-            print('DATA_ERRO: %s'%filename)
+        if len(filenames) == 0:
+            print('DATA_ERRO: %s' % filename)
             return [], s_index
-        if (len(filenames)-s_index) <= num_frames_per_clip:
+        if (len(filenames) - s_index) <= num_frames_per_clip:
             filenames = sorted(filenames)
             if len(filenames) < num_frames_per_clip:
                 for i in range(num_frames_per_clip):
                     if i >= len(filenames):
-                        i = len(filenames)-1
+                        i = len(filenames) - 1
                     image_name = str(filename) + '/' + str(filenames[i])
                     img = Image.open(image_name)
                     img_data = np.array(img)
                     ret_arr.append(img_data)
             else:
                 for i in range(num_frames_per_clip):
-                    image_name = str(filename) + '/' + str(filenames[len(filenames)-num_frames_per_clip+i])
+                    image_name = str(filename) + '/' + str(filenames[len(filenames) - num_frames_per_clip + i])
                     img = Image.open(image_name)
                     img_data = np.array(img)
                     ret_arr.append(img_data)
@@ -66,8 +65,8 @@ def get_data(filename, num_frames_per_clip, sample_rate, s_index=-1):
     filenames = sorted(filenames)
     if s_index < 0:
         s_index = random.randint(0, len(filenames) - num_frames_per_clip)
-    for i in range(int(num_frames_per_clip/sample_rate)):
-        image_name = str(filename) + '/' + str(filenames[int(i*sample_rate)+s_index])
+    for i in range(int(num_frames_per_clip / sample_rate)):
+        image_name = str(filename) + '/' + str(filenames[int(i * sample_rate) + s_index])
         img = Image.open(image_name)
         img_data = np.array(img)
         ret_arr.append(img_data)
@@ -77,9 +76,9 @@ def get_data(filename, num_frames_per_clip, sample_rate, s_index=-1):
 def get_frames_data(filename, num_frames_per_clip, sample_rate, add_flow):
     ''' Given a directory containing extracted frames, return a video clip of
     (num_frames_per_clip) consecutive frames as a list of np arrays '''
-    #print(filename)
+    # print(filename)
     filename_i = os.path.join(filename, 'i')
-    #print(filename_i)
+    # print(filename_i)
     rgb_ret_arr, s_index = get_data(filename_i, num_frames_per_clip, sample_rate)
     if not add_flow:
         return rgb_ret_arr, [], s_index
@@ -112,13 +111,13 @@ def data_process_pos(tmp_data, crop_size, position):
             scale = float(256) / float(img.height)
             img = np.array(cv2.resize(np.array(img), (int(img.width * scale + 1), 256))).astype(np.float32)
             if j == 0:
-                if position==-1:
+                if position == -1:
                     crop_x = random.randint(0, int(img.shape[0] - crop_size))
                     crop_y = random.randint(0, int(img.shape[1] - crop_size))
-                elif position==0:
+                elif position == 0:
                     crop_x = int((img.shape[0] - crop_size) / 2)
                     crop_y = 0
-                elif position==1:
+                elif position == 1:
                     crop_x = int((img.shape[0] - crop_size) / 2)
                     crop_y = int((img.shape[1] - crop_size) / 2)
                 else:
@@ -128,13 +127,13 @@ def data_process_pos(tmp_data, crop_size, position):
             scale = float(256) / float(img.width)
             img = np.array(cv2.resize(np.array(img), (256, int(img.height * scale + 1)))).astype(np.float32)
             if j == 0:
-                if position==-1:
+                if position == -1:
                     crop_x = random.randint(0, int(img.shape[0] - crop_size))
                     crop_y = random.randint(0, int(img.shape[1] - crop_size))
-                elif position==0:
+                elif position == 0:
                     crop_x = 0
                     crop_y = int((img.shape[1] - crop_size) / 2)
-                elif position==1:
+                elif position == 1:
                     crop_x = int((img.shape[0] - crop_size) / 2)
                     crop_y = int((img.shape[1] - crop_size) / 2)
                 else:
@@ -144,7 +143,6 @@ def data_process_pos(tmp_data, crop_size, position):
         img = img[crop_x:crop_x + crop_size, crop_y:crop_y + crop_size, :]
         img_datas.append(img)
     return img_datas
-
 
 
 def data_process(tmp_data, crop_size):
@@ -168,7 +166,9 @@ def data_process(tmp_data, crop_size):
         img_datas.append(img)
     return img_datas
 
-def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=64, sample_rate=1, crop_size=224, shuffle=True, add_flow=False):
+
+def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=64, sample_rate=1, crop_size=224,
+                        shuffle=True, add_flow=False):
     content = open(filename, 'r')
     read_dirnames = []
     rgb_data = []
@@ -222,4 +222,5 @@ def read_clip_and_label(filename, batch_size, start_pos=-1, num_frames_per_clip=
     np_arr_flow_data = np.array(flow_data).astype(np.float32)
     np_arr_label = np.array(label).astype(np.int64)
 
-    return np_arr_rgb_data, np_arr_flow_data, np_arr_label.reshape(batch_size), next_batch_start, read_dirnames, valid_len
+    return np_arr_rgb_data, np_arr_flow_data, np_arr_label.reshape(batch_size), next_batch_start, read_dirnames, \
+           valid_len
